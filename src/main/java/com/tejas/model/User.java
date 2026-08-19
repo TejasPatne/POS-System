@@ -28,6 +28,9 @@ public class User {
     private String password;
     private String phone;
 
+    @ManyToOne
+    private Store store;
+
     @Column(nullable = false)
     private UserRole role;
 

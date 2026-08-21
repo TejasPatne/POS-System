@@ -27,9 +27,9 @@ public class ProductController {
     }
 
     @GetMapping("/store/{storeId}")
-    public ResponseEntity<List<ProductDto>> getByStoreId(@PathVariable Long id,
+    public ResponseEntity<List<ProductDto>> getByStoreId(@PathVariable Long storeId,
                                                       @RequestHeader("Authorization") String jwt) {
-        return new ResponseEntity<>(productService.getProductsByStoreId(id), HttpStatus.OK);
+        return new ResponseEntity<>(productService.getProductsByStoreId(storeId), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
@@ -41,11 +41,12 @@ public class ProductController {
     }
 
     @GetMapping("/store/{storeId}/search")
-    public ResponseEntity<List<ProductDto>> searchByKeyword(@PathVariable Long id,
+    public ResponseEntity<List<ProductDto>> searchByKeyword(@PathVariable Long storeId,
                                                             @RequestParam String keyword) {
-        return new ResponseEntity<>(productService.searchByKeyword(id, keyword), HttpStatus.OK);
+        return new ResponseEntity<>(productService.searchByKeyword(storeId, keyword), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> delete(@PathVariable Long id,
                                               @RequestHeader("Authorization") String jwt) {
         User user = userService.getUserFromJwtToken(jwt);

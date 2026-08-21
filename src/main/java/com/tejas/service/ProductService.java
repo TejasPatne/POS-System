@@ -1,5 +1,6 @@
 package com.tejas.service;
 
+import com.tejas.model.Category;
 import com.tejas.model.Product;
 import com.tejas.model.User;
 import com.tejas.payload.dto.ProductDto;

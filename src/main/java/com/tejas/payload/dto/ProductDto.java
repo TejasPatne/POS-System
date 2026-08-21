@@ -5,13 +5,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
     private Long id;
     private String name;
@@ -21,6 +22,7 @@ public class ProductDto {
     private Double sellingPrice;
     private String brand;
     private String image;
+    private CategoryDto category;
     private Long categoryId;
     private Long storeId;
     private LocalDateTime createdAt;

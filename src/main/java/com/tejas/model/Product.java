@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Builder
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(nullable = false)
@@ -28,6 +28,9 @@ public class Product {
     private Double sellingPrice;
     private String brand;
     private String image;
+
+    @ManyToOne
+    private Category category;
 
     @ManyToOne
     private Store store;

@@ -1,10 +1,12 @@
 package com.tejas.service.impl;
 
 import com.tejas.mapper.ProductMapper;
+import com.tejas.model.Category;
 import com.tejas.model.Product;
 import com.tejas.model.Store;
 import com.tejas.model.User;
 import com.tejas.payload.dto.ProductDto;
+import com.tejas.repository.CategoryRepository;
 import com.tejas.repository.ProductRepository;
 import com.tejas.repository.StoreRepository;
 import com.tejas.service.ProductService;
@@ -20,11 +22,14 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final StoreRepository storeRepository;
+    private final CategoryRepository categoryRepository;
+
     @Override
     public ProductDto createProduct(ProductDto productDto, User user) {
         Store store = storeRepository.findById(productDto.getStoreId())
                 .orElseThrow(() -> new RuntimeException("I searched the entire universe. No store."));
-        Product product = ProductMapper.toEntity(productDto, store);
+        Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found"));
+        Product product = ProductMapper.toEntity(productDto, store, category);
         Product savedProduct = productRepository.save(product);
         return ProductMapper.toDto(savedProduct);
     }
@@ -42,6 +47,11 @@ public class ProductServiceImpl implements ProductService {
         product.setSellingPrice(product.getSellingPrice());
         product.setBrand(product.getBrand());
         product.setUpdatedAt(LocalDateTime.now());
+
+        if (productDto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productDto.getCategoryId()).orElseThrow(() -> new RuntimeException("Category not found"));
+            product.setCategory(category);
+        }
 
         Product savedProduct = productRepository.save(product);
         return ProductMapper.toDto(savedProduct);

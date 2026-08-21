@@ -1,9 +1,12 @@
 package com.tejas.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,32 +14,32 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Product {
+public class Branch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String sku;
+    private String address;
+    private String phone;
 
-    private String description;
-    private Double mrp;
+    @Email
+    private String email;
 
-    private Double sellingPrice;
-    private String brand;
-    private String image;
+    @ElementCollection
+    private List<String> workingDays;
 
-    @ManyToOne
-    private Category category;
+    private LocalTime openTime;
+    private LocalTime closeTime;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     private Store store;
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    @OneToOne(cascade = CascadeType.REMOVE)
+    private User manager;
 
     @PrePersist
     protected void onCreate() {

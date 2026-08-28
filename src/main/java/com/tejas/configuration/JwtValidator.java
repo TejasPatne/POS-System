@@ -20,6 +20,12 @@ import java.io.IOException;
 import java.util.List;
 
 public class JwtValidator extends OncePerRequestFilter {
+    private final JwtConstants jwtConstants;
+
+    public JwtValidator(JwtConstants jwtConstants) {
+        this.jwtConstants = jwtConstants;
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(JwtConstants.JWT_HEADER); // Bearer ivwonvovwoej9930jsdml
@@ -28,7 +34,7 @@ public class JwtValidator extends OncePerRequestFilter {
             jwt = jwt.substring(7);
 
             try {
-                SecretKey secretKey = Keys.hmacShaKeyFor(JwtConstants.JWT_SECRET.getBytes());
+                SecretKey secretKey = Keys.hmacShaKeyFor(jwtConstants.getJwtSecret().getBytes());
                 Claims claims = Jwts.parser()
                         .verifyWith(secretKey)
                         .build()

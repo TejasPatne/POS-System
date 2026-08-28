@@ -1,6 +1,17 @@
 package com.tejas.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class JwtConstants {
-    public static final String JWT_SECRET = "i38n93r9fniefw903vdnnksf9080vdoie9938fnbnaoelb044";
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
     public static final String JWT_HEADER = "Authorization";
+
+    public String getJwtSecret() {
+        return jwtSecret;
+    }
 }

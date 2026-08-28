@@ -19,6 +19,11 @@ import java.util.Collections;
 
 @Configuration
 public class SecurityConfig {
+    private final JwtConstants jwtConstants;
+
+    public SecurityConfig(JwtConstants jwtConstants) {
+        this.jwtConstants = jwtConstants;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/**").authenticated()
                         .requestMatchers("/api/super-admin/**").hasRole("ADMIN")
                         .anyRequest().permitAll())
-                .addFilterBefore(new JwtValidator(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtValidator(jwtConstants), BasicAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfigManager -> corsConfigManager.configurationSource(corsConfigurationSource())).build();
     }

@@ -61,7 +61,7 @@ public class OpenApiConfig {
                                 ## Tech Stack
 
                                 Java · Spring Boot · Spring Security · JWT ·
-                                MySql · JPA/Hibernate · Docker
+                                PostgreSQL · JPA/Hibernate · Docker
                                 """));
     }
 }
